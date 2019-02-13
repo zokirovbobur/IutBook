@@ -20,16 +20,17 @@ public class StudentService {
 
 
     public ResponseEntity<String> save(Student student){
-        try {
-            if (studentRepo.findByStudentId(student.getStudentId()).getStudentId().equals(student.getStudentId())){
-                return ResponseEntity.badRequest().body("Student id is not free...");
-            }
-
-        }catch (NullPointerException e){
-            studentRepo.save(student.encodePassword());
+        studentRepo.save(student.encodePassword());
             return ResponseEntity.ok("user has been added successfully...");
-        }
-        return ResponseEntity.badRequest().body("Something wrong");
+//         try {
+//             if (studentRepo.findByStudentId(student.getStudentId()).getStudentId().equals(student.getStudentId())){
+//                 return ResponseEntity.badRequest().body("Student id is not free...");
+//             }
+
+//         }catch (NullPointerException e){
+           
+//         }
+//         return ResponseEntity.badRequest().body("Something wrong");
 
     }
     public ResponseEntity<String> update(Student student){
