@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
 import java.util.List;
 
 @Service
@@ -20,21 +21,16 @@ public class StudentService {
 
 
     public ResponseEntity<String> save(Student student){
-        studentRepo.save(student.encodePassword());
-            return ResponseEntity.ok("user has been added successfully...");
-//         try {
-//             if (studentRepo.findByStudentId(student.getStudentId()).getStudentId().equals(student.getStudentId())){
-//                 return ResponseEntity.badRequest().body("Student id is not free...");
-//             }
 
-//         }catch (NullPointerException e){
-           
-//         }
-//         return ResponseEntity.badRequest().body("Something wrong");
+        studentRepo.save(student.encodePassword());
+        return ResponseEntity.ok("user has been added successfully...");
+
+
+
 
     }
     public ResponseEntity<String> update(Student student){
-        if(student.matchesPassword(studentRepo.findByStudentId(student.getStudentId()))){
+        if(student.matchesPassword(studentRepo.findByUserId(student.getUserId()))){
             studentRepo.save(student.encodePassword());
             return ResponseEntity.ok("user's settings has been changed successfully...");
         }
@@ -49,7 +45,7 @@ public class StudentService {
         return all;
     }
     public ResponseEntity<String> delete(Student student){
-        Student studentFromBase = studentRepo.findByStudentId(student.getStudentId());
+        Student studentFromBase = studentRepo.findByUserId(student.getUserId());
         if(student.matchesPassword(studentFromBase)){
             studentRepo.delete(student);
             return ResponseEntity.ok("User has been deleted successfully...");

@@ -16,7 +16,7 @@ public class AuthService {
 
     public ResponseEntity<Long> login(Student student){
 
-        Student studentFromBase = studentRepo.findByStudentId(student.getStudentId());
+        Student studentFromBase = studentRepo.findByUserId(student.getUserId());
         if(student.matchesPassword(studentFromBase)){
 
             return ResponseEntity.ok(studentFromBase.getUuId());

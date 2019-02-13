@@ -18,17 +18,32 @@ public class StudentController {
     }
     @GetMapping("all")
     public List<Student> getAll(){return studentService.findAll();}
+
     @PostMapping
-    public ResponseEntity<String> post(@RequestBody String student){
-        return studentService.save(new Student(student) );
+    public ResponseEntity<String> post(@RequestBody Student student){
+        return studentService.save(student );
     }
     @PutMapping
-    public ResponseEntity<String> put(@RequestBody String student){
-        return studentService.update(new Student(student));
+    public ResponseEntity<String> put(@RequestBody Student student){
+        return studentService.update(student);
     }
     @DeleteMapping
-    public ResponseEntity<String> delete(@RequestBody String student){
-        return studentService.delete(new Student(student));
+    public ResponseEntity<String> delete(@RequestBody Student student){
+        return studentService.delete(student);
     }
+
+
+//    @PostMapping
+//    public ResponseEntity<String> post(@RequestBody String student){
+//        return studentService.save(new Student(student) );
+//    }
+//    @PutMapping
+//    public ResponseEntity<String> put(@RequestBody String student){
+//        return studentService.update(new Student(student));
+//    }
+//    @DeleteMapping
+//    public ResponseEntity<String> delete(@RequestBody String student){
+//        return studentService.delete(new Student(student));
+//    }
 
 }

@@ -1,9 +1,6 @@
 package bbro.iut_book_v01.student;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.validator.constraints.UniqueElements;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,7 +15,7 @@ public class Student {
     private long uuId;
     private String fullName;
     @Column(unique = true)
-    private String studentId;
+    private String userId;
 
     private String groupNumber;
     private String faculty;
@@ -38,12 +35,14 @@ public class Student {
         }
         this.uuId = student.uuId;
         this.fullName = student.fullName;
-        this.studentId = student.studentId;
+        this.userId = student.userId;
         this.groupNumber = student.groupNumber;
         this.faculty = student.faculty;
         this.password = student.password;
 
     }
+
+
 
     public long getUuId() {
         return uuId;
@@ -61,12 +60,12 @@ public class Student {
         this.fullName = fullName;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getGroupNumber() {
