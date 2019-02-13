@@ -22,11 +22,21 @@ public class StudentService {
 
     public ResponseEntity<String> save(Student student){
 
-        studentRepo.save(student.encodePassword());
+        studentRepo.save(student);
         return ResponseEntity.ok("user has been added successfully...");
 
 
-
+//        try {
+//            if (studentRepo.findByUserId(student.getUserId()).getUserId().equals(student.getUserId())){
+//                return ResponseEntity.badRequest().body("Student id is not free...");
+//            }
+//
+//        }catch (NullPointerException e){
+//
+//        }catch (NonUniqueResultException e){
+//            e.printStackTrace();
+//        }
+//        return ResponseEntity.badRequest().body("Something wrong");
 
     }
     public ResponseEntity<String> update(Student student){
