@@ -22,7 +22,7 @@ public class StudentService {
 
     public ResponseEntity<String> save(Student student){
 
-        studentRepo.save(student);
+        studentRepo.save(student.encodePassword());
         return ResponseEntity.ok("user has been added successfully...");
 
 
@@ -51,7 +51,10 @@ public class StudentService {
     }
     public List<Student> findAll(){
         List<Student> all = studentRepo.findAll();
-        all.forEach(student -> {student.setUuId(0L);student.setPassword("");});
+        all.forEach(student -> {
+            student.setUuId(0L);
+            student.setPassword("");
+        });
         return all;
     }
     public ResponseEntity<String> delete(Student student){

@@ -110,4 +110,17 @@ public class Student {
     private PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "uuId=" + uuId +
+                ", fullName='" + fullName + '\'' +
+                ", userId='" + userId + '\'' +
+                ", groupNumber='" + groupNumber + '\'' +
+                ", faculty='" + faculty + '\'' +
+                ", department='" + department + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

@@ -14,6 +14,7 @@ public class StudentController {
 
     @GetMapping
     public Student sample(){
+        System.out.println("get");
         return new Student();
     }
     @GetMapping("all")

@@ -15,16 +15,25 @@ public class AuthService {
     StudentRepo studentRepo;
 
     public ResponseEntity<Long> login(Student student){
+        System.out.println("in: " + student.toString());
 
-        Student studentFromBase = studentRepo.findByUserId(student.getUserId());
-        if(student.matchesPassword(studentFromBase)){
+            try{
+                Student studentFromBase = studentRepo.findByUserId(student.getUserId());
 
-            return ResponseEntity.ok(studentFromBase.getUuId());
-        }
-        else {
+                System.out.println("out: " + studentFromBase.toString());
+
+                if(student.matchesPassword(studentFromBase)){
+
+                return ResponseEntity.ok(studentFromBase.getUuId());
+            }
+            else {
+                return ResponseEntity.badRequest().body(0L);
+
+            }
+        }catch (NullPointerException e){
             return ResponseEntity.badRequest().body(0L);
-
         }
+
     }
 
     @Bean
