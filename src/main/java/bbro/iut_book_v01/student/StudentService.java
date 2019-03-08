@@ -141,7 +141,7 @@ public class StudentService {
             }else {
                 System.out.println("stud not exists");
                 studentFromBase = new Student();
-                
+
                 studentFromBase.detectFromFullName(objectData[1]);
                 //this is not final result
                 studentFromBase.setUserId(objectData[0].toLowerCase());

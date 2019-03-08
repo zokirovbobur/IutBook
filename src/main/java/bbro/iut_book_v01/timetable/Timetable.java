@@ -3,7 +3,7 @@ package bbro.iut_book_v01.timetable;
 import bbro.iut_book_v01.group.Group_;
 
 import javax.persistence.*;
-import java.sql.Blob;
+import java.io.*;
 
 @Entity
 public class Timetable {
@@ -16,14 +16,8 @@ public class Timetable {
     @Column(nullable = false)
     private String timetable;
 
-    private Blob file;
 
     public Timetable() {
-    }
-
-    public Timetable(Group_ group, String timetable) {
-        this.group = group;
-        this.timetable = timetable;
     }
 
     public long getTimetableId() {
@@ -48,14 +42,6 @@ public class Timetable {
 
     public void setTimetable(String timetable) {
         this.timetable = timetable;
-    }
-
-    public Blob getFile() {
-        return file;
-    }
-
-    public void setFile(Blob file) {
-        this.file = file;
     }
 
     @Override
