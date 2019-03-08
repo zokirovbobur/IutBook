@@ -15,7 +15,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<Long> login(@RequestBody Student student){
+    public ResponseEntity<Student> login(@RequestBody Student student){
         return authService.login(student);
     }
 }

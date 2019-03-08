@@ -1,63 +1,90 @@
 package bbro.iut_book_v01.student;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import bbro.iut_book_v01.group.Group_;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.IOException;
+import java.util.Calendar;
+import java.util.UUID;
 
 @Entity
 public class Student {
 
     @Id
+    @Column(updatable = false, nullable = false)
     @GeneratedValue
-    private long uuId;
-    private String fullName;
-    @Column(unique = true)
+    private long uuid;
+    private String firstName;
+    private String lastName;
+
+    @Column(unique = true, nullable = false)
     private String userId;
 
-    private String groupNumber;
-    private String faculty;
-    private String department;
-    private String password;
+    @ManyToOne
+    private Group_ group;
 
-
+    private int fs;
 
     public Student() {
     }
-    public Student(String jsonString) {
-        Student student = new Student();
-        try {
-            student = new ObjectMapper().readValue(jsonString, Student.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+
+    public void calculateFS(){
+
+        int
+
+                faculty = Integer.valueOf(String.valueOf(userId.charAt(4)))+1,
+                currentYear = Calendar.getInstance().get(Calendar.YEAR),
+                month = Calendar.getInstance().get(Calendar.MONTH)+1,
+                studentEnteredYear10 =Integer.valueOf(
+                        String.valueOf(userId.charAt(1))),
+                studentEnteredYear1= Integer.valueOf(String.valueOf(userId.charAt(2))),
+                studentEnteredYear = studentEnteredYear10*10+studentEnteredYear1;
+
+
+        int semester = currentYear - (2000+ studentEnteredYear);
+        semester*=2;
+        if(month>=9){
+            semester++;
         }
-        this.uuId = student.uuId;
-        this.fullName = student.fullName;
-        this.userId = student.userId;
-        this.groupNumber = student.groupNumber;
-        this.faculty = student.faculty;
-        this.password = student.password;
+
+
+        System.out.println("f: "+faculty+" s: "+ semester);
+        fs = faculty*10 + semester;
+        System.out.println(fs);
 
     }
+    public void detectFromFullName(String fullname){
+        String str = fullname;
+        //String fName,lName;
+        int indexOfSpace = str.indexOf(" ");
+        if (str.endsWith("OV")||str.endsWith("EV")||str.endsWith("OVA")||str.endsWith("EVA")||
+                str.endsWith("ov")||str.endsWith("ev")||str.endsWith("ova")||str.endsWith("eva")
+                ){
 
-
-
-    public long getUuId() {
-        return uuId;
+            firstName = str.substring(0,indexOfSpace);
+            lastName = str.substring(indexOfSpace+1,str.length());
+        } else {
+            lastName = str.substring(0,indexOfSpace);
+            firstName = str.substring(indexOfSpace+1,str.length());
+        }
     }
 
-    public void setUuId(long uuId) {
-        this.uuId = uuId;
+    public long getUuid() {
+        return uuid;
     }
 
-    public String getFullName() {
-        return fullName;
+    public void setUuid(long uuid) {
+        this.uuid = uuid;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public Student nullUuid(){uuid = 0;return this;}
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getUserId() {
@@ -68,59 +95,41 @@ public class Student {
         this.userId = userId;
     }
 
-    public String getGroupNumber() {
-        return groupNumber;
+    public Group_ getGroup() {
+        return group;
     }
 
-    public void setGroupNumber(String groupNumber) {
-        this.groupNumber = groupNumber;
+    public void setGroup(Group_ group) {
+        this.group = group;
     }
 
-    public String getFaculty() {
-        return faculty;
+    public int getFs() {
+        return fs;
     }
 
-    public void setFaculty(String faculty) {
-        this.faculty = faculty;
+    public void setFs(int fs) {
+        this.fs = fs;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean matchesPassword(Student studentFromBase){
-        return passwordEncoder().matches(password, studentFromBase.getPassword());
-    }
-    public Student encodePassword(){
-        password = passwordEncoder().encode(password);
-        return this;
-    }
-    private PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    //    private PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
     @Override
     public String toString() {
         return "Student{" +
-                "uuId=" + uuId +
-                ", fullName='" + fullName + '\'' +
+                "uuid=" + uuid +
+                ", firstName='" + firstName + '\'' +
                 ", userId='" + userId + '\'' +
-                ", groupNumber='" + groupNumber + '\'' +
-                ", faculty='" + faculty + '\'' +
-                ", department='" + department + '\'' +
-                ", password='" + password + '\'' +
+                ", group='" + group + '\'' +
+                ", fs='" + fs + '\'' +
                 '}';
     }
 }
