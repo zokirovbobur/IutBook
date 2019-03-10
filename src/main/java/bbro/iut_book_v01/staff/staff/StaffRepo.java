@@ -6,10 +6,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface StaffRepo extends JpaRepository<Staff, Long> {
-    Staff findByUuid(UUID uuid);
+    Staff findByStaffId(long staffId);
     Staff findByUserId(String userId);
     boolean existsByUserId(String userId);
-    boolean existsByUuid(UUID uuid);
+    boolean existsByStaffId(long uuid);
+
     Staff findByFirstNameOrLastName(String firstName,String lastName);
     List<Staff> findAllByStaffTypeStaffTypeId(Long staffTypeId);
     List<Staff> findAllByStaffTypeStaffTypeValue(String staffTypeValue);

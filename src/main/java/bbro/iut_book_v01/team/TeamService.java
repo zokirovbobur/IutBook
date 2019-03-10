@@ -1,5 +1,6 @@
 package bbro.iut_book_v01.team;
 
+import bbro.iut_book_v01.staff.staff.StaffRepo;
 import bbro.iut_book_v01.student.Student;
 import bbro.iut_book_v01.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.util.List;
 public class TeamService {
     @Autowired
     private TeamRepo teamRepo;
+    @Autowired
+    private StaffRepo staffRepo;
 
     public ResponseEntity<String> save(Team team){
 
@@ -41,12 +44,24 @@ public class TeamService {
             res = 0;
         }
         else if(team.getTeamId()==0){
-            // case of new record
-            res = 1;
-            List<Student> initStudent = new ArrayList<>();
-            initStudent.add(team.getStudentRequest());
-            team.setStudentResponse(initStudent);
-            teamRepo.save(team);
+            if (staffRepo.existsByUserId(team.getStaff().getUserId())){
+                // case of new record
+                res = 1;
+                List<Student> initStudent = new ArrayList<>();
+                initStudent.add(team.getStudentRequest());
+                team.setStudentResponse(initStudent);
+                team.setStaff(staffRepo.findByUserId(team.getStaff().getUserId()));
+                teamRepo.save(team);
+            }else {
+                // case of new record
+                res = 1;
+                List<Student> initStudent = new ArrayList<>();
+                initStudent.add(team.getStudentRequest());
+                team.setStudentResponse(initStudent);
+
+                teamRepo.save(team);
+            }
+
         }else{
             Team teamFromBase = teamRepo.findByTeamId(team.getTeamId());
             if(teamFromBase.isFilled()){

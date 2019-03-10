@@ -1,7 +1,6 @@
 package bbro.iut_book_v01.staff.staff;
 
 import bbro.iut_book_v01.staff.staff.staffType.StaffType;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -9,27 +8,27 @@ import java.util.UUID;
 @Entity
 public class Staff {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "uuid", updatable = false, nullable = false)
-    private UUID uuid;
+    @Column(updatable = false, nullable = false)
+    @GeneratedValue
+    private long staffId;
     private String firstName;
     private String lastName;
     @Column(unique = true, nullable = false)
     private String userId;
 
     @ManyToOne
-    StaffType staffType;
+    private StaffType staffType;
 
-    public UUID getUuid() {
-        return uuid;
+    public void nullUuid(){
+        this.staffId = 0;
     }
 
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
+    public long getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(long staffId) {
+        this.staffId = staffId;
     }
 
     public String getFirstName() {
@@ -67,7 +66,7 @@ public class Staff {
     @Override
     public String toString() {
         return "Staff{" +
-                "uuid=" + uuid +
+                "staffId=" + staffId +
                 ", firstName='" + firstName + '\'' +
                 ", userId='" + userId + '\'' +
                 ", staffType=" + staffType +

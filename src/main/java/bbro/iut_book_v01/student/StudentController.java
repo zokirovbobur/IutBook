@@ -29,8 +29,13 @@ public class StudentController {
         return studentService.findAll();
     }
 
+    @GetMapping("login")
+    public ResponseEntity<StudentLogin> login(){
+        return ResponseEntity.ok(new StudentLogin());
+    }
+
     @PostMapping("login")
-    public ResponseEntity<Student> login(@RequestBody Student student){
+    public ResponseEntity<Student> login(@RequestBody StudentLogin student){
         System.out.println("login");
         return studentService.login(student);
     }
@@ -39,6 +44,10 @@ public class StudentController {
         return studentService.save(student);
     }
 
+    @PostMapping("testLogin")
+    public boolean testLogin(@RequestBody StudentLogin studentLogin){
+        return studentService.checkPasswordTesting(studentLogin);
+    }
 
     @DeleteMapping
     public ResponseEntity<String> delete(@RequestBody Student student){

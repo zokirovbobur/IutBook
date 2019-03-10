@@ -1,4 +1,4 @@
-package bbro.iut_book_v01.personalCabinet.interests;
+package bbro.iut_book_v01.personalCabinet.interests.achievements;
 
 import bbro.iut_book_v01.personalCabinet.interests.InterestType.InterestType;
 import bbro.iut_book_v01.student.Student;
@@ -9,10 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Interest {
-    @Id
-    @GeneratedValue
-    private long interestId;
+public class Achievement {
+    @Id @GeneratedValue
+    private long achievementId;
 
     @ManyToOne
     private InterestType interestType;
@@ -22,12 +21,12 @@ public class Interest {
 
     private String comment;
 
-    public long getInterestId() {
-        return interestId;
+    public long getAchievementId() {
+        return achievementId;
     }
 
-    public void setInterestId(long interestId) {
-        this.interestId = interestId;
+    public void setAchievementId(long achievementId) {
+        this.achievementId = achievementId;
     }
 
     public InterestType getInterestType() {
@@ -56,8 +55,8 @@ public class Interest {
 
     @Override
     public String toString() {
-        return "Interest{" +
-                "interestId=" + interestId +
+        return "Achievement{" +
+                "achievementId=" + achievementId +
                 ", interestType=" + interestType +
                 ", student=" + student +
                 ", comment='" + comment + '\'' +

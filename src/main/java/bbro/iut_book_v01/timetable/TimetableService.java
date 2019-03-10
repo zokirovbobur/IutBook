@@ -43,12 +43,16 @@ public class TimetableService {
         }
         BufferedReader br = new BufferedReader(fr);
         String line;
-        String content="";
+        String content="";//String content="\"";
         while((line = br.readLine()) != null){
             //process the line
             //System.out.println(line);
             content+=line;
+            if (content.endsWith(">")){
+                content+=System.lineSeparator();
+            }
         }
+        //content+="\"";
         System.out.println("content: " + content);
         return content;
     }

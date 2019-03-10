@@ -2,19 +2,28 @@ package bbro.iut_book_v01.student;
 
 import bbro.iut_book_v01.group.GroupRepo;
 import bbro.iut_book_v01.group.Group_;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -30,18 +39,71 @@ public class StudentService {
         studentRepo.save(student);
         return ResponseEntity.ok(studentRepo.findByUserId(student.getUserId()));
     }
-    public ResponseEntity<Student> login(Student student){
-        student.calculateFS();
-        student.setUserId(student.getUserId().toLowerCase());
-        Student studentFromBase;
-        if (studentRepo.existsByUserId(student.getUserId())){
-            studentFromBase = studentRepo.findByUserId(student.getUserId());
-            return ResponseEntity.ok(studentFromBase);
+    public ResponseEntity<Student> login(StudentLogin student){
+
+        if (isPasswordCorrect(student)){
+
+            Student studentFromBase;
+            if (studentRepo.existsByUserId(student.getUserId())){
+                studentFromBase = studentRepo.findByUserId(student.getUserId());
+                studentFromBase.calculateFS();
+                studentRepo.save(studentFromBase);
+                return ResponseEntity.ok(studentFromBase);
+            }else {
+                Student studentReport = new Student();
+                studentReport.setFirstName("user is not exists");
+                return ResponseEntity.badRequest().body(studentReport);
+            }
         }else {
-            return ResponseEntity.badRequest().body(new Student());
+            Student studentReport = new Student();
+            studentReport.setFirstName("password is incorrect");
+            return ResponseEntity.badRequest().body(studentReport);
         }
 
+
     }
+
+    private boolean isPasswordCorrect(StudentLogin studentLogin){
+//        Map<String, String> vars = new HashMap<String, String>();
+//        vars.put("id", "JS01");
+        /**
+         *
+         * Doing the REST call and then displaying the data/user object
+         *
+         */
+        try
+        {
+            /*
+                This is code to post and return a user object
+             */
+            RestTemplate rt = new RestTemplate();
+            //rt.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
+            rt.getMessageConverters().add(new StringHttpMessageConverter());
+            String uri = "http://localhost:8080/student/testLogin";
+
+            boolean returns = rt.postForObject(uri, studentLogin, boolean.class);
+            if (returns){
+                //there should be returned true
+            }else {
+                //there false
+            }
+            System.out.println("returns: " + returns);
+        }
+        catch (HttpClientErrorException e)
+        {
+            e.printStackTrace();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return true;//it should be taken from here
+    }
+
+    public boolean checkPasswordTesting(StudentLogin studentLogin){
+        return studentLogin.getUserId().equals("u1710117") && studentLogin.getPassword().equals("pass");
+    }
+
 
     //smart update for updating only group of object (but it should have been changed to full update one)
     public ResponseEntity<String> update(Student student){

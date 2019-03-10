@@ -28,7 +28,7 @@ public class MessageController {
     @GetMapping("all")
     public List<Message> findAll(){return messageService.findAll();}
 
-    @PostMapping("byReceiver")
+    @PostMapping("findByReceiver")
     public List<Message> findAllByReceiver(@RequestBody Message message){
         return messageService.findAllByReceiver(message);
     }

@@ -33,7 +33,7 @@ public class TaskService {
     }
 
     public boolean isStaffProper(Task task){
-        return staffRepo.existsByUuid(task.getStaff().getUuid());
+        return staffRepo.existsByStaffId(task.getStaff().getStaffId());
     }
 
     public boolean isTaskTypeProper(Task task){

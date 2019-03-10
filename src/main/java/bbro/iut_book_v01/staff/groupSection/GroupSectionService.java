@@ -1,7 +1,5 @@
 package bbro.iut_book_v01.staff.groupSection;
 
-import bbro.iut_book_v01.group.GroupRepo;
-import bbro.iut_book_v01.group.Group_;
 import bbro.iut_book_v01.staff.groupSection.groupsPerSection.GroupsPerSection;
 import bbro.iut_book_v01.staff.groupSection.groupsPerSection.GroupsPerSectionRepo;
 import bbro.iut_book_v01.staff.staff.Staff;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,7 +20,7 @@ public class GroupSectionService {
     private StaffRepo staffRepo;
 
     public ResponseEntity<String> save(GroupSection groupSection){
-        if (staffRepo.existsByUuid(groupSection.getResponsibleStaff().getUuid())){
+        if (staffRepo.existsByStaffId(groupSection.getResponsibleStaff().getStaffId())){
             sectionRepo.save(groupSection);
             return ResponseEntity.ok("done");
         }else {
@@ -42,6 +39,6 @@ public class GroupSectionService {
         return sectionRepo.findAllByCourseName(groupSection.getCourseName());
     }
     public List<GroupsPerSection> finAllByResponsibleProfessor(Staff staff){
-        return perSectionRepo.findAllByGroupSection_ResponsibleStaff_Uuid(staff.getUuid());
+        return perSectionRepo.findAllByGroupSection_ResponsibleStaff_StaffId(staff.getStaffId());
     }
 }

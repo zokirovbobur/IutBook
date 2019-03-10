@@ -68,9 +68,11 @@ public class StaffService {
             }
         }
     }
-    //uuid sh'd be cleaned from list
+
     public List<Staff> findAll(){
-        return staffRepo.findAll();
+        List<Staff> staffs = staffRepo.findAll();
+        staffs.forEach(staff -> staff.nullUuid());
+        return staffs;
     }
     public List<Staff> findAllByType(StaffType staffType){
         return staffRepo.findAllByStaffTypeStaffTypeId(staffType.getStaffTypeId());

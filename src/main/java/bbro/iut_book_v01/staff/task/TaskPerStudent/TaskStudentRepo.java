@@ -8,9 +8,8 @@ import java.util.UUID;
 
 public interface TaskStudentRepo extends JpaRepository<TaskStudent, Long> {
     TaskStudent findByTaskStudentId(long id);
-    List <TaskStudent> findAllByStudentUuid(UUID uuid);
-    List<TaskStudent> findAllByTaskStaffUuid(UUID uuid);
-
+    List <TaskStudent> findAllByStudent_Uuid(long uuid);
+    List<TaskStudent> findAllByTask_Staff_StaffId(long id);
     List<TaskStudent> findAllBySubmittedIsTrue();
 
 }

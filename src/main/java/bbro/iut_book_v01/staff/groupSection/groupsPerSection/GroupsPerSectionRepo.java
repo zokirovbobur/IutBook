@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface GroupsPerSectionRepo extends JpaRepository<GroupsPerSection,Long> {
     List<GroupsPerSection> findAllByGroupSection_GroupSectionId(long id);
-    List<GroupsPerSection> findAllByGroupSection_ResponsibleStaff_Uuid(UUID uuid);
+    List<GroupsPerSection> findAllByGroupSection_ResponsibleStaff_StaffId(long uuid);
 }

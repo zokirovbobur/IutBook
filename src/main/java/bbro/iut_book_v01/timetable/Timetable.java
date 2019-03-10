@@ -3,7 +3,6 @@ package bbro.iut_book_v01.timetable;
 import bbro.iut_book_v01.group.Group_;
 
 import javax.persistence.*;
-import java.io.*;
 
 @Entity
 public class Timetable {
